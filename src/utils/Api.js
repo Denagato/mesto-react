@@ -1,3 +1,7 @@
+//менять полностьЮ проверять названия и тд
+
+
+
 import {apiConfig} from "./utils";
 
 class Api {
@@ -28,20 +32,13 @@ class Api {
     });
   }
 
-  getStartInfo() {
-    return Promise.all([
-      this.getUserInfo(),
-      this.getInitialCards()
-    ]);
-  }
-
   updateUserInfo(data) {
     return this._fetchRequest('users/me', {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
-        about: data.job
+        about: data.about
       })
     });
   }
@@ -57,16 +54,9 @@ class Api {
     });
   }
 
-  likesCard(card) {
+  changeLikeCardStatus(card, isLiked) {
     return this._fetchRequest(`cards/likes/${card}`, {
-      method: 'PUT',
-      headers: this._headers
-    });
-  }
-
-  dislikesCard(card) {
-    return this._fetchRequest(`cards/likes/${card}`, {
-      method: 'DELETE',
+      method: isLiked ? 'DELETE' : 'PUT',
       headers: this._headers
     });
   }
@@ -83,7 +73,7 @@ class Api {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        avatar: url
+        avatar: url.avatar
       })
     });
   }
